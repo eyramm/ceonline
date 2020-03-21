@@ -231,7 +231,7 @@ const app = new Vue({
     el: '#myapp',
 data: function(){
     return{
-            payment_modal: false,
+            payment_modals: false,
             raveKey: 'FLWPUBK-1beb6ca9cea567480a782f5f99294d64-X',
             email: user.email,
             amount: 0,
