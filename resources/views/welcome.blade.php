@@ -86,7 +86,7 @@
               <div class="rounded-lg bg-white shadow-xs overflow-hidden">
                 <div class="px-5 pt-4 flex items-center justify-between">
                   <div>
-                    {{-- <img class="h-8 w-auto" src="/img/logos/workflow-mark-on-white.svg" alt="" /> --}}
+                    {{-- <img class="h-8 w-auto" src="https://ceycairportcity.org/wp-content/uploads/2020/01/ceyc_logo-e1578178440895.png" alt="" /> --}}
                     CE ONLINE
                   </div>
                   <div class="-mr-2">
