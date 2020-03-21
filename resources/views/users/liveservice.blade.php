@@ -2,7 +2,7 @@
 @section('title', 'Dasboard')
 
 @push('page-title')
-    Video Center
+    Service Archives
 @endpush
 @push('custom-styles')
     <link href="https://vjs.zencdn.net/7.6.6/video-js.css" rel="stylesheet" />
@@ -194,7 +194,7 @@
             </div>
         </div>
         <div class="md:col-span-1 col-span-4 md:row-span-2 m-1 lg:m-0 xl:m-0 flex md:flex-col flex-wrap">
-            <p class="p-1 px-3 py-3 tex-gray-700 hidden lg:block text-2xl"> Video Archives </p>
+            <p class="p-1 px-3 py-3 tex-gray-700 hidden lg:block text-2xl"> Service Archives </p>
             @forelse ($services as $s)
             <a href="../videos/{{ $s->id }}">
                 <div class="h-auto md:max-w-xs  md:min-w-0 min-w-18 my-3 py-5 bg-indigo-500 rounded-lg shadow-2xl flex flex-col text-white items-center mx-2">
