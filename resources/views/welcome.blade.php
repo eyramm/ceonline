@@ -126,12 +126,12 @@
           <div class="mt-32 mx-auto max-w-screen-xl px-4 sm:mt-32 sm:px-6 md:mt-32 lg:mt-32 xl:mt-32">
             <div class="text-center">
               <h2 class="text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl">
-                You're welcome to Christ Embassy
+                Welcome to CEYC Airport City
                 <br class="xl:hidden" />
-                <span class="text-indigo-600">Giving your life a meaning</span>
+                <span class="text-indigo-600">Giving Your Life a New Meaning</span>
               </h2>
               <p class="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-                Register to take full advantage of our Online church.
+                Kindly register to take full advantage of our online church.
               </p>
               <div class="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
                 <div class="rounded-md shadow">
@@ -161,10 +161,10 @@
                 </span>
                 <p class="ml-3 font-medium text-white truncate">
                   <span class="md:hidden">
-                    Watch Mid-Week Service here!
+                    Watch Sunday Service here!
                   </span>
                   <span class="hidden md:inline">
-                    Watch Mid-Week Service here!
+                    Watch Sunday Service here!
                   </span>
                 </p>
               </div>
