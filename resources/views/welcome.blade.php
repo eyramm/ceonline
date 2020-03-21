@@ -38,7 +38,7 @@
               <div class="flex items-center flex-1 md:absolute md:inset-y-0 md:left-0">
                 <div class="flex items-center justify-between w-full md:w-auto">
                   <a href="#">
-                    {{-- <img class="h-8 w-auto sm:h-10" src="/img/logos/workflow-mark-on-white.svg" alt="" /> --}}
+                    {{-- <img class="h-8 w-auto sm:h-10" src="https://ceycairportcity.org/wp-content/uploads/2020/01/ceyc_logo-e1578178440895.png" alt="" /> --}}
                     CE ONLINE
                   </a>
                   <div class="-mr-2 flex items-center md:hidden">
