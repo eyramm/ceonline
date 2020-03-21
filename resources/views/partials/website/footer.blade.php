@@ -40,10 +40,10 @@
             </span>
             <p class="ml-3 font-medium text-white truncate">
               <span class="md:hidden">
-                Watch Mid-Week Service here!
+                Watch Sunday Service here!
               </span>
               <span class="hidden md:inline">
-                Watch Mid-Week Service here!
+                Watch Sunday Service here!
               </span>
             </p>
           </div>
