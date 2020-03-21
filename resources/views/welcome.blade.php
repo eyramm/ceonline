@@ -37,7 +37,7 @@
             <nav class="relative flex items-center justify-between sm:h-10 md:justify-center">
               <div class="flex items-center flex-1 md:absolute md:inset-y-0 md:left-0">
                 <div class="flex items-center justify-between w-full md:w-auto">
-                  <a href="#">
+                  <a href="https://live.ceycairportcity.org/">
                     {{-- <img class="h-8 w-auto sm:h-10" src="https://ceycairportcity.org/wp-content/uploads/2020/01/ceyc_logo-e1578178440895.png" alt="" /> --}}
                     CE ONLINE
                   </a>
