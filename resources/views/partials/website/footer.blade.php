@@ -23,12 +23,12 @@
       </div>
       <div class="mt-8 md:mt-0 md:order-1">
         <p class="text-center text-base leading-6 text-gray-400">
-          &copy; 2020 CE Online. All rights reserved.
+          &copy; 2020 CEYC Live. All rights reserved.
         </p>
       </div>
     </div>
   </div>
-  <div class="fixed bottom-0 inset-x-0 pb-2 sm:pb-5"   x-data="{ announcement : true}">
+  <!-- <div class="fixed bottom-0 inset-x-0 pb-2 sm:pb-5"   x-data="{ announcement : true}">
     <div x-show.transition="announcement" class="max-w-screen-xl mx-auto px-2 sm:px-6 lg:px-8">
       <div class="p-2 rounded-lg bg-indigo-600 shadow-lg sm:p-3">
         <div class="flex items-center justify-between flex-wrap">
@@ -49,8 +49,8 @@
           </div>
           <div class="order-3 mt-2 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto">
             <div class="rounded-md shadow-sm">
-              <a href="../videos" class="flex items-center justify-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-indigo-600 bg-white hover:text-indigo-500 focus:outline-none focus:shadow-outline transition ease-in-out duration-150">
-                Watch Now!
+              <a href="../givings" class="flex items-center justify-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-indigo-600 bg-white hover:text-indigo-500 focus:outline-none focus:shadow-outline transition ease-in-out duration-150">
+                Give Now!
               </a>
             </div>
           </div>
@@ -64,4 +64,4 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->

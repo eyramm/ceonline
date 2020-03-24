@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use App\Models\Service;
+use App\Models\Salvation;
 use App\Models\Attendance;
+use App\Models\FirstTimer;
 use Illuminate\Http\Request;
 use App\Models\PaymentCategory;
 use Merujan99\LaravelVideoEmbed\Facades\LaravelVideoEmbed;
@@ -45,7 +47,9 @@ class ServiceController extends Controller
         $service = Service::has('videos')->with(['videos', 'comments'=> function($q){
              $q->latest();
              $q->with('user');
-        }])->latest()->first();
+        }])->latest()->first();      
+        
+        // dd($service);
 
         return $service;
     }
@@ -87,7 +91,7 @@ class ServiceController extends Controller
             //Optional attributes for embed container
             $attributes = [
             'type' => null,
-            'class' => 'w-full h-video',
+            'class' => 'w-full h-video ',
             'data-html5-parameter' => true
             ];
 
@@ -147,7 +151,7 @@ class ServiceController extends Controller
                 $q->with('user');
         }])->latest()->first();
 
-        if(!$service->videos()->exists())
+        if(!$service->videos()->exists() & $service->platform != 'youtube' & !empty($service->link))
         {
             toastr()->warning('Select Service video has not been uploaded yet')->success('You have been redirected to another service');
 
@@ -171,6 +175,41 @@ class ServiceController extends Controller
         $timezone = $timezone['timezone'];
 
         return view('users.liveservice', compact('service', 'services', 'user','video_iframe', 'timezone', 'payment_categories'));
+    }
+
+    public function first_timer(Request $request)
+    {
+        $user = $request->user();
+        $first_timer = new FirstTimer;
+        $first_timer->church_id = $request->church;
+        $first_timer->service_id = $request->service;
+        $first_timer->name = $user->name;
+        $first_timer->user_id = $user->id;
+        $first_timer->save(); 
+
+        return response()->json([
+            'message' => 'success',
+            'code' => 100
+        ]);
+
+    }
+
+
+    public function salvation(Request $request)
+    {
+        $user = $request->user();
+        $salvation = new Salvation;
+        $salvation->church_id = $request->church;
+        $salvation->service_id = $request->service;
+        $salvation->name = $user->name;
+        $salvation->user_id = $user->id;
+        $firssalvationt_timer->save(); 
+
+        return response()->json([
+            'message' => 'success',
+            'code' => 100
+        ]);
+
     }
 
   

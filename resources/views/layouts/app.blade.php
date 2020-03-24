@@ -3,7 +3,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta property="og:title" content="Christ Embassy Online" /> 
+    <meta property="og:type" content="article" /> 
+    <meta property="og:url" content="http://live.christembassynungua.org" />
+    <meta property="og:description" content="You're welcome to Christ Embassy Online Church, Join us worship the Lord in the beauty of His Holiness" />
+    <meta name="twitter:image" content="http://live.christembassynungua.org/images/christ_embassy_nungua.jpg" />
+    <meta property="og:image" content="http://live.christembassynungua.org/images/christ_embassy_nungua.jpg"  />
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -19,6 +24,22 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bootstrapcss.css') }}" rel="stylesheet">
+    {{-- @php
+        $bg = array('christ_embassy_nungua.jpg','church.jpg','church1.jpg' ); // array of filenames
+
+    $i = rand(0, count($bg)-1); // generate random number size of the array
+    $selectedBg = "$bg[$i]"; // set variable equal to which random filename was chosen
+    @endphp
+
+    <style type="text/css">
+        .bg-image-slider{
+        background-color: rgba(0, 0, 0, 0.267);
+        background-image: url(../images/{{ $selectedBg }});
+        background-repeat: no-repeat;
+        background-blend-mode: overlay;
+        background-position: top;
+        };
+    </style> --}}
 </head>
 <body>
     <div id="app">

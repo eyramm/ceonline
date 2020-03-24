@@ -34,12 +34,14 @@ class HomeController extends Controller
         $latest_service = Service::with(['videos', 'comments'=> function($q){
             $q->latest();
             $q->with('user');
+        },  'announcements' => function($q){
+            $q->latest();
         }])->latest()->first();
 
-        $service_videos_check = Service::has('videos')->with(['videos', 'comments'=> function($q){
-            $q->latest();
-             $q->with('user');
-        }])->latest()->first();
+        // $service_videos_check = Service::has('videos')->with(['videos', 'comments'=> function($q){
+        //     $q->latest();
+        //      $q->with('user');
+        // }])->latest()->first();
 
         $latest_service_has_a_video_check = $latest_service->videos()->exists();
 
@@ -49,7 +51,8 @@ class HomeController extends Controller
         }elseif (!empty($latest_service->link)) {
             $service = $latest_service;
         }else{
-            $service = $service_videos_check;
+            toastr()->warning( $latest_service->title. ' has not started yet')->success('You can watch a prevoius service');
+            $service = $latest_service;
         }
       
 
@@ -58,7 +61,9 @@ class HomeController extends Controller
         $video_iframe = $this->video_parse($service);
 
         $services = Service::latest()
-                            ->with('servicetype', 'announcements')
+                            ->with(['servicetype', 'announcements' => function($q){
+                                $q->latest();
+                            }])
                             ->limit(4)
                             ->get();
 

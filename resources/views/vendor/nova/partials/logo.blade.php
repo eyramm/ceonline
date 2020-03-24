@@ -1,1 +1,1 @@
-<p>CE ONLINE ADMIN</p>
+<p>CEYC Live</p>

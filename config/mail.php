@@ -83,11 +83,11 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'info@christembassynungua.org'),
-        'name' => env('MAIL_FROM_NAME', 'Christ Embassy Nungua'),
+        'address' => env('MAIL_FROM_ADDRESS', 'tech@ceycairportcity.org'),
+        'name' => env('MAIL_FROM_NAME', 'CEYC Airport City'),
     ],
 
-    'reply_to' => ['address' => 'info@christembassynungua.org', 'name' => 'Christ Embassy Nungua'],
+    'reply_to' => ['address' => 'tech@ceycairportcity.org', 'name' => 'CEYC Airport City'],
 
 
     /*

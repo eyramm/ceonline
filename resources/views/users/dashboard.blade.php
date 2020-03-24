@@ -3,7 +3,14 @@
 @section('title', 'Dasboard')
 
 @push('page-title')
-    Live Service - {{ $service->title }}
+    <!-- <div class="flex justify-between">
+      <p class="hidden sm:block"></p>
+      <div>
+        <button  type="button" class="inline-flex justify-center rounded-md border border-transparent px-4 py-2 bg-red-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+          Click here, if this is your first time here!
+        </button>
+      </div>
+    </div> -->
 @endpush
 @push('custom-styles')
     <link href="https://vjs.zencdn.net/7.6.6/video-js.css" rel="stylesheet" />
@@ -48,7 +55,6 @@
             @if($video_iframe == false)
               <video class="video-js vjs-big-play-centered vjs-16-9" data-setup='{"controls": true, "autoplay": true, "preload": "auto"}'>
                 <source src="{{ $service->link ?? '' }}" type="video/mp4">
-                
               </video>
             @else
               {!! $video_iframe !!}
@@ -61,11 +67,14 @@
                          <p class="pb-4 pt-1 text text-gray-500">{{ $service->start_date->toFormattedDateString() }}</p>
                     </span>
                     <div class="mt-2">
-                      <button class="my-2 mx-1 inline-flex items-center shadow-md px-8 py-2 border border-transparent text-sm leading-5 font-medium rounded-full  text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"> 
-                        <i class="las la-phone-alt text-2xl"></i>  MTN Mobile Money  055 343 2170
+                    <button class="my-2 mx-1 inline-flex items-center shadow-md px-8 py-2 border border-transparent text-sm leading-5 font-medium rounded-full  text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"> 
+                        <i class="las la-phone-alt text-2xl"></i>  MTN MoMo 055 343 2170
                       </button>
-                      <button v-on:click="payment_modal = false" class="my-2 mx-1 inline-flex items-center shadow-md px-8 py-2 border border-transparent text-sm leading-5 font-medium rounded-full  text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"> 
-                        <i class="lab la-cc-visa mr-1 text-2xl"></i><i class="lab la-cc-mastercard mr-1 text-2xl"></i><i class="las la-mobile-alt mr-1 text-2xl"></i> Click to Pay Online with Card or MoMO
+                      <button class="my-2 mx-1 inline-flex items-center shadow-md px-8 py-2 border border-transparent text-sm leading-5 font-medium rounded-full  text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"> 
+                        <i class="las la-phone-alt text-2xl"></i> AirtelTigo Cash 057 988 8860 
+                      </button>
+                      <button v-on:click="payment_modals = true" class="my-2 mx-1 inline-flex items-center shadow-md px-8 py-2 border border-transparent text-sm leading-5 font-medium rounded-full  text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"> 
+                        <i class="lab la-cc-visa mr-1 text-2xl"></i><i class="lab la-cc-mastercard mr-1 text-2xl"></i><i class="las la-mobile-alt mr-1 text-2xl"></i> <a href="https://ceycairportcity.org/give" target=_blank> Click to Pay Online with Card or MoMO </a>
                       </button>
 
                       <div style="display: none"  v-show="payment_modal" class="fixed bottom-0 inset-x-0 px-4 pb-6 sm:inset-0 sm:p-0 sm:flex sm:items-center sm:justify-center">
@@ -102,29 +111,32 @@
                                       </div>
                                     </div>
                                   </div>
-                                  <label for="phone" class="my-2 text-left  my-1   block text-sm font-medium leading-5 text-gray-700">Mobile Money Number</label>
-                                  <div class="mt-1 relative rounded-md shadow-sm">
-                                      <div class="absolute inset-y-0 left-0 flex items-center">
-                                        <select aria-label="Country" class="form-select h-full py-0 pl-3 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm sm:leading-5">
-                                          <option>GH</option>
-                                          <option>NG</option>
-                                        </select>
-                                      </div>
-                                      <input id="phone" v-model="phone" class="form-input block w-full pl-16 sm:text-sm sm:leading-5" placeholder="233241582764" />
-                                    </div>
-                                  <label for="amount" class="my-2 text-left  my-1   block text-sm font-medium leading-5 text-gray-700">Amount to give</label>
+                              
+                                  <label for="phone" class="my-2 text-left  my-1   block text-sm font-medium leading-5 text-gray-700">Phone Number</label>
                                   <div class="mt-1 relative rounded-md shadow-sm">
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                       <span class="text-gray-500 sm:text-sm sm:leading-5">
-                                        ₵
+                                        <li class="las la-phone-alt"></li>
                                       </span>
                                     </div>
-                                    <input id="amount" v-model="amount" type="number" class="form-input block w-full pl-7 pr-12 sm:text-sm sm:leading-5" placeholder="0.00" />
+                                    <input id="phone" v-model="phone" type="tel" class="form-input block w-full pl-7 pr-12 sm:text-sm sm:leading-5" placeholder="233241582764" />
                                     <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                       <span class="text-gray-500 sm:text-sm sm:leading-5">
-                                        GHS
+                                        Phone
                                       </span>
                                     </div>
+                                  </div>
+
+                                  <label for="phone" class="my-2 text-left  my-1  block text-sm font-medium leading-5 text-gray-700">Amount to give</label>
+                                  <div class="mt-1 relative rounded-md shadow-sm">
+                                      <div class="absolute inset-y-0 left-0 flex items-center">
+                                        <select v-model="currency" aria-label="Country" class="form-select h-full py-0 pl-3 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm sm:leading-5">
+                                          <option value="GHS">GHS</option>
+                                          <option value="NGN">NGN</option>
+                                          <option value="USD">USD</option>
+                                        </select>
+                                      </div>
+                                      <input id="amount" v-model="amount" class="form-input block w-full pl-5 text-right pl-16 sm:text-sm sm:leading-5" placeholder="0.00" />
                                   </div>
                                 </div>
                                 
@@ -150,11 +162,10 @@
                                   :close="rave_close"
                                   :customer-firstname="first_name"
                                   :customer-lastname="last_name"
-                                  payment-options="ussd, card, account"
+                                  {{-- payment-options="ussd, card, account" --}}
                                   hosted-payment=0
-                                  custom-title="ECWAVZ 5 Online Church"
-                                  currency="GHS"
-                                  country="GH"
+                                  :currency="currency"
+                                  :country="rave_country"
                               ><i class="lab la-cc-visa mr-1 text-2xl"></i><i class="lab la-cc-mastercard mr-1 text-2xl"></i><i class="las la-mobile-alt mr-1 text-2xl"></i> Pay Now</Rave>
                           
                           </div>
@@ -329,7 +340,6 @@
 
 @push('custom-scripts')
 <script src="https://vjs.zencdn.net/7.6.6/video.js"></script>
-<script src="https://unpkg.com/vue-ravepayment/dist/rave.min.js"></script>
 
 <script>
 
@@ -350,7 +360,7 @@
                 payment_modals: false,
                 raveKey: 'FLWPUBK-1beb6ca9cea567480a782f5f99294d64-X',
                 email: user.email,
-                amount: 0,
+                amount: '',
                 phone: '',
                 fname: '',
                 lname: '',
@@ -362,7 +372,10 @@
                 message: '',
                 submit_comment: false,
                 spinner: false,
-                payment_categories: payment_categories
+                payment_categories: payment_categories,
+                currency: 'GHS',
+                country: 'GH',
+                shareURl: false,
 
             }
         },
@@ -370,6 +383,20 @@
         computed: {
             live_comments: function(){
                 return this.comments;
+            },
+
+            rave_country: function(){
+              if(this.currency == "GHS"){
+                  return this.country = 'GH'
+              }
+
+              if(this.currency == "NGN"){
+                  return this.country = 'NG'
+              }
+
+              if(this.currency == "USD"){
+                  return this.country = 'US'
+              }
             },
 
             first_name(){
@@ -403,10 +430,14 @@
         },
     
         methods: {
+          closeShareURL: function () {
+                console.log(this.shareURl = false);
+                
+            },
           rave_callback: function(response){
-            this.amount = ''
-            this.payment_modal = false
-            if(response.data.status == 'success'){
+            this.payment_modal = false;
+            var self = this;
+            if(response.data.data.status == 'successful'){
               axios.post('../payments', {
                   church: this.service.church_id,
                   service: this.service.id,
@@ -414,17 +445,20 @@
                   amount: this.amount,
                   payment_category: this.payment_category
               }).then(function(response){
-    
-                  console.log(response.data);
+                self.amount = '';
+                self.payment_modal = false
+
+
               }).catch(function(e){
-            
+
                   console.log(e);
               })
             }
           
-            console.log(response)
           },
           rave_close: function(){
+            this.payment_modal = false;
+            this.amount = ''
             console.log("Payment closed")
           },
   
@@ -477,9 +511,9 @@
         },
     
         mounted: function(){
-
+          var self = this;
           setInterval(function(){ 
-              this.attendance_count();
+              self.attendance_count();
             },500000
           );
 

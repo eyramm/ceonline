@@ -4,38 +4,28 @@ namespace App\Nova;
 
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Number;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\DateTime;
 
 
-class Payment extends Resource
+class Salvation extends Resource
 {
-    public static $group = 'Accounting';
-
-      /**
-         * The relationship columns that should be searched.
-         *
-         * @var array
-         */
-        public static $searchRelations = [
-            'user' => ['name', 'email'],
-        ];
+    public static $group = 'Service Center';
 
     /**
      * The model the resource corresponds to.
      *
      * @var  string
      */
-    public static $model = \App\Models\Payment::class;
+    public static $model = \App\Models\Salvation::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var  string
      */
-    public static $title = 'amount';
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -43,7 +33,7 @@ class Payment extends Resource
      * @var  array
      */
     public static $search = [
-        'id', 'amount', 'status'
+        'id', 'name'
     ];
 
     /**
@@ -53,7 +43,7 @@ class Payment extends Resource
      */
     public static function label()
     {
-        return __('Payments');
+        return __('Salvations');
     }
 
     /**
@@ -63,7 +53,7 @@ class Payment extends Resource
     */
     public static function singularLabel()
     {
-        return __('Payment');
+        return __('Salvation');
     }
 
     /**
@@ -79,15 +69,8 @@ class Payment extends Resource
 ->rules('required')
 ->sortable()
 ,
-                                                                BelongsTo::make('Church')
-
-
-->sortable()
-,
-                                                                BelongsTo::make('PaymentCategory')
-
-->rules('required')
-
+                                                                Text::make( __('Name'),  'name')
+->onlyOnIndex()
 ->sortable()
 ,
 
@@ -96,26 +79,17 @@ BelongsTo::make('User')
 ->searchable()
 ->sortable()
 ,
-     
+                                                                BelongsTo::make('Church')
 
-BelongsTo::make('Service')
-
-
+->searchable()
 ->sortable()
 ,
-                                                                Number::make( __('Amount'),  'amount')
-->rules('required')
+                                                                BelongsTo::make('Service')
+
+->searchable()
 ->sortable()
-->step(0.01)
 ,
-                                                                Select::make( __('Status'),  'status')
-->sortable()
-->options([
-    		    'success' => 'success',
-	    	    'failed' => 'failed',
-	    	    'pending' => 'pending',
-	    	])
-,
+ 
                                                                                             ];
     }
 
@@ -127,9 +101,7 @@ BelongsTo::make('Service')
      */
     public function cards(Request $request)
     {
-        return [
-            (new \App\Nova\Metrics\newPayments),
-        ];
+        return [];
     }
 
     /**
@@ -162,8 +134,6 @@ BelongsTo::make('Service')
      */
     public function actions(Request $request)
     {
-        return [
-            new \Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel,
-        ];
+        return [];
     }
 }

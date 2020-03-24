@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Payment;
+use App\Models\Service;
 use Illuminate\Http\Request;
+use App\Models\PaymentCategory;
 
 class PaymentController extends Controller
 {
@@ -34,15 +36,44 @@ class PaymentController extends Controller
 
         return response()->json($payment);
     }
-    // /**
-    //  * Display a listing of the resource.
-    //  *
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function index()
-    // {
-    //     //
-    // }
+
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        $payment_categories = PaymentCategory::all();
+
+        $service = Service::latest()->first();
+
+        $user = $request->user();
+
+
+        $payments = Payment::where('user_id', $request->user()->id)
+                           ->with('user','service', 'paymentcategory')
+                            ->whereBetween('created_at', [
+                                now()->copy()->startOfYear()->toDateTimeString(),
+                                now()->copy()->endOfYear()->toDateTimeString()
+                            ])
+                            ->latest()->get();
+
+        $total_year = $payments->sum('amount');
+        $total_count = $payments->count();
+
+        $total_tithe = Payment::where('user_id', $request->user()->id)->whereHas('paymentcategory', function ($query) {
+            $query->where('title', 'tithe');
+        })->sum('amount');
+
+        $total_partnership = Payment::where('user_id', $request->user()->id)->whereHas('paymentcategory', function ($query) {
+            $query->where('partnership', 1);
+        })->sum('amount');
+
+
+        return view('users.finance', compact('payments', 'total_year', 'total_count', 'total_tithe', 'total_partnership', 'service', 'payment_categories', 'user'));
+    }
 
     // /**
     //  * Store a newly created resource in storage.

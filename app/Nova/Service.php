@@ -94,10 +94,10 @@ Select::make( __('Type'),  'type')
 	    	    'online' => 'online',
 	    	])
 ,
-                                                                Textarea::make( __('Description'),  'description')
+                                                                Textarea::make( __('Description'),  'description')->hideFromIndex()
 ->sortable()
 ,
-                                                                Text::make( __('Link'),  'link')
+                                                                Text::make( __('Link'),  'link')->hideFromIndex()
 ->sortable()
 ,
                                                                 Select::make( __('Platform'),  'platform')
@@ -105,7 +105,9 @@ Select::make( __('Type'),  'type')
 ->options([
     		    'youtube' => 'youtube',
 	    	    'facebook' => 'facebook',
+	    	    'vimeo' => 'vimeo',
 	    	    'imm' => 'imm',
+	    	    'other' => 'other',
 	    	])
 ,
                                                                 DateTime::make( __('Start Date'),  'start_date')
