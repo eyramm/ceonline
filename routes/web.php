@@ -38,12 +38,21 @@ Route::middleware(['auth'])->group(function(){
 
     Route::get('/videos', 'ServiceController@index');
 
+    Route::get('/invites', 'ServiceController@invites');
+
+    Route::post('/salvation', 'ServiceController@salvation');
+
+    Route::post('/first_timer', 'ServiceController@first_timer');
+
     Route::get('/videos/{id}', 'ServiceController@show');
 
     Route::post('/payments', 'PaymentController@give');
 
     Route::get('/givings', 'PaymentController@index');
 
+    Route::get('accounts', 'UserController@index');
+
+    Route::put('profile_update', 'UserController@profile_update');
 
     Route::get('views', function(){
         $service = Service::latest()->first();

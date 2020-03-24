@@ -2,8 +2,16 @@
 @section('title', 'Dasboard')
 
 @push('page-title')
-    Service Archives
+<div class="flex justify-between">
+  <p class="hidden sm:block"></p>
+  <div>
+    <!-- <button v-on:click.prevent="first_timer()"   type="button" class="inline-flex justify-center rounded-md border border-transparent px-4 py-2 bg-red-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+      <i class="las la-handshake text-xl mr-1"></i> Click here, if this is your first time worshipping with us!
+    </button> -->
+  </div>
+</div>
 @endpush
+
 @push('custom-styles')
     <link href="https://vjs.zencdn.net/7.6.6/video-js.css" rel="stylesheet" />
     <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
@@ -57,7 +65,7 @@
                                 </h3>
                                 <div class="mt-2">
                                   <p class="text-sm leading-5 text-gray-500">
-                                    Pay with Your Visa, Master Card or Mobile Money.
+                                    Give with Your Visa, Master Card or Mobile Money.
                                   </p>
                                   <div>
                                     <div class="mt-6 sm:mt-5  sm:border-t sm:border-gray-200 sm:pt-5">
@@ -128,7 +136,7 @@
                                     hosted-payment=0
                                     :currency="currency"
                                     :country="rave_country"
-                                ><i class="lab la-cc-visa mr-1 text-2xl"></i><i class="lab la-cc-mastercard mr-1 text-2xl"></i><i class="las la-mobile-alt mr-1 text-2xl"></i> Pay Now</Rave>
+                                ><i class="lab la-cc-visa mr-1 text-2xl"></i><i class="lab la-cc-mastercard mr-1 text-2xl"></i><i class="las la-mobile-alt mr-1 text-2xl"></i> Give Now</Rave>
                             
                             </div>
                           </div>
@@ -312,6 +320,66 @@ data: function(){
       closeShareURL: function () {
           console.log(this.shareURl = false);
       },
+
+     
+      first_timer: function(){
+            var self = this;
+            self.$swal.fire({
+              title: 'Welcome to Christ Embassy',
+              text: "Is this your first time worshiping with us?",
+              icon: 'info',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes!'
+            }).then((result) => {
+              if (result.value) {
+                axios.post('../first_timer',{
+                  'service': self.service.id
+                }).then(function(r){
+                  self.$swal.fire(
+                  'Success!',
+                  r.data.message,
+                  'success'
+                )
+                }).catch(function(e){
+
+                })
+               
+              }
+            })
+           
+          },
+
+          salvation: function(){
+            var self = this;
+            self.$swal.fire({
+              title: 'Accept the Lord Jesus',
+              text: "Do you want to accept the Lord Jesus as your Lord and personal Savior",
+              icon: 'info',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes!'
+            }).then((result) => {
+              if (result.value) {
+                axios.post('../salvation',{
+                'service': this.service.id
+              }).then(function(r){
+                self.$swal.fire(
+                  'Success!',
+                  r.data.message,
+                  'success'
+                )
+                }).catch(function(e){
+
+                })
+               
+              }
+            })
+          },
+
+
       rave_callback: function(response){
         this.payment_modal = false;
         var self = this;
@@ -321,6 +389,7 @@ data: function(){
               service: this.service.id,
               user: this.user.id,
               amount: this.amount,
+              currency: this.currency,
               payment_category: this.payment_category
           }).then(function(response){
                 self.payment_modal = false;

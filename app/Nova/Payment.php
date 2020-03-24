@@ -2,12 +2,13 @@
 
 namespace App\Nova;
 
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\BelongsTo;
+use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\BelongsTo;
 
 
 class Payment extends Resource
@@ -99,8 +100,9 @@ BelongsTo::make('User')
      
 
 BelongsTo::make('Service')
-
-
+->sortable()
+,
+Text::make( __('Currency'),  'currency')
 ->sortable()
 ,
                                                                 Number::make( __('Amount'),  'amount')
