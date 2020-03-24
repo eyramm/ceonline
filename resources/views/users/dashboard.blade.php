@@ -468,7 +468,7 @@
             var self = this;
             self.$swal.fire({
               title: 'Alter Call',
-              text: "Do you want to accept the Lord Jesus as your Lord and personal Saviour",
+              text: "Do you want to accept Jesus as your Lord and personal Saviour?",
               icon: 'info',
               showCancelButton: true,
               confirmButtonColor: '#3085d6',
