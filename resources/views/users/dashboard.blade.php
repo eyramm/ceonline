@@ -178,7 +178,7 @@
                         </button>
                       </span>                  
                     </div>
-                    <p class="mt-2 text-sm text-gray-500">post your thoughts here.</p>
+                    <p class="mt-2 text-sm text-gray-500">Share your thoughts here</p>
                 </div>
                 <div class="w-full my-4">
                   <div class="bg-white shadow overflow-hidden sm:rounded-md">
