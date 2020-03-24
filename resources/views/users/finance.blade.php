@@ -320,8 +320,8 @@
           salvation: function(){
             var self = this;
             self.$swal.fire({
-              title: 'Accept the Lord Jesus',
-              text: "Do you want to accept the Lord Jesus as your Lord and personal Savior",
+              title: 'Alter Call',
+              text: "Do you want to accept Jesus as your Lord and personal Saviour?",
               icon: 'info',
               showCancelButton: true,
               confirmButtonColor: '#3085d6',
