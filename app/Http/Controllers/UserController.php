@@ -17,7 +17,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $user = $request->user()->with('profile')->first();
+        $user = User::where('id', $request->user()->id)->with('profile')->first();
         
         $churches = Church::all();
 
@@ -39,7 +39,7 @@ class UserController extends Controller
             'church' => 'required',
             'phone' => 'nullable|min:9|max:12',
             'email' => 'nullable',
-            'kings_chat' => 'nullable',
+            'kings_chat' => 'nullable|min:9|max:12',
             'date_of_birth' => 'nullable',
             'marital_status' => 'nullable',
         ]);
