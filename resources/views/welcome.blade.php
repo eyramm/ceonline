@@ -7,8 +7,8 @@
         <meta property="og:type" content="article" /> 
         <meta property="og:url" content="http://live.ceycairportcity.org" />
         <meta property="og:description" content="You're welcome to CEYC Online Church. Join us worship the Lord in the beauty of His Holiness" />
-        <meta name="twitter:image" content="http://live.christembassynungua.org/images/christ_embassy_nungua.jpg" />
-        <meta property="og:image" content="http://live.christembassynungua.org/images/christ_embassy_nungua.jpg"  />
+        <meta name="twitter:image" content="https://ceycairportcity.org/wp-content/uploads/2020/01/ceyc_logo-e1578178440895.png"/>
+        <meta property="og:image" content="https://ceycairportcity.org/wp-content/uploads/2020/01/ceyc_logo-e1578178440895.png"/>
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         {{-- <link href="{{ asset('css/bootstrapcss.css') }}" rel="stylesheet"> --}}
         <script src="{{ asset('js/app.js') }}" defer></script>
