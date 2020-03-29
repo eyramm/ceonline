@@ -6,6 +6,7 @@ use App\Models\Invite;
 use App\Models\Comment;
 use App\Models\Service;
 use App\Models\Salvation;
+use App\Events\NewComment;
 use App\Models\Attendance;
 use App\Models\FirstTimer;
 use Illuminate\Http\Request;
@@ -66,6 +67,8 @@ class ServiceController extends Controller
         if($check_attendance){
             $check_attendance->count = 1;
             $check_attendance->service_id = $service->id;
+            $check_attendance->updated_at = now()->toDateTimeString();
+
         }else{
             $attendance = new Attendance;
             $attendance->user_id = $user->id;
@@ -88,12 +91,13 @@ class ServiceController extends Controller
             //Optional parameters to be appended to embed
             $params = [
                 'autoplay' => 1,
-            ];
+                'rel' => 0
+             ];
 
             //Optional attributes for embed container
             $attributes = [
             'type' => null,
-            'class' => 'w-full h-video ',
+            'class' => 'w-full sm:h-video',
             'data-html5-parameter' => true
             ];
 
@@ -133,6 +137,8 @@ class ServiceController extends Controller
         $comment->user_id = $request->user;
         $comment->message = $request->message;
         $comment->save();
+
+        broadcast(new NewComment($comment));
 
         return response()->json($comment);
     }

@@ -118,10 +118,11 @@ Select::make( __('Type'),  'type')
 ,
 
 HasMany::make('Videos'),
-
-HasMany::make('Announcements'),
-
+HasMany::make('FirstTImers'),
+HasMany::make('Salvations'),
+HasMany::make('Payments'),
 HasMany::make('Attendances'),
+HasMany::make('Announcements'),
 HasMany::make('Comments'),
 
                                                                                             ];

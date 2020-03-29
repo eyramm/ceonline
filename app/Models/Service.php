@@ -54,4 +54,19 @@ public function comments()
 {
 return $this->hasMany('App\Models\Comment');
 }
+
+public function salvations()
+{
+return $this->hasMany('App\Models\Salvation');
+}
+
+public function firsttimers()
+{
+return $this->hasMany('App\Models\FirstTimer');
+}
+
+public function payments()
+{
+return $this->hasMany('App\Models\Payment');
+}
 }

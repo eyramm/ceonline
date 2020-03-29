@@ -63,8 +63,8 @@
             <div class="flex flex-col w-full">
                 <div class="flex flex-wrap justify-between">
                     <span class="px-4">
-                    <p class="pt-4 pb-1 text-lg text-gray-700">{{ $service->title ?? 'No Broadcast' }}</p>
-                         <p class="pb-4 pt-1 text text-gray-500">{{ $service->start_date->toFormattedDateString() }}</p>
+                    <p class="pt-4 pb-1  text-sm  md:text-lg text-gray-700">{{ $service->title ?? 'No Broadcast' }}</p>
+                         <p class="pb-4 pt-1 text-sm  md:text-base text-gray-500">{{ $service->start_date->toFormattedDateString() }}</p>
                     </span>
                     <div class="mt-2">
                     <button class="my-2 mx-1 inline-flex items-center shadow-md px-8 py-2 border border-transparent text-sm leading-5 font-medium rounded-full  text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"> 
@@ -73,8 +73,8 @@
                       <button class="my-2 mx-1 inline-flex items-center shadow-md px-8 py-2 border border-transparent text-sm leading-5 font-medium rounded-full  text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"> 
                         <i class="las la-phone-alt text-2xl"></i> AirtelTigo Cash 057 988 8860 
                       </button>
-                      <button v-on:click="payment_modals = true" class="my-2 mx-1 inline-flex items-center shadow-md px-8 py-2 border border-transparent text-sm leading-5 font-medium rounded-full  text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"> 
-                        <i class="lab la-cc-visa mr-1 text-2xl"></i><i class="lab la-cc-mastercard mr-1 text-2xl"></i><i class="las la-mobile-alt mr-1 text-2xl"></i> <a href="https://ceycairportcity.org/give" target=_blank> Pay Online with Card or MoMO </a>
+                      <button class="my-2 mx-1 inline-flex items-center shadow-md px-8 py-2 border border-transparent text-sm leading-5 font-medium rounded-full  text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"> 
+                        <i class="las la-mobile-alt mr-1 text-2xl"></i> <a href="https://ceycairportcity.org/give" target=_blank> Pay Online with Card or MoMO </a>
                       </button>
 
                       <div style="display: none"  v-show="payment_modal" class="fixed bottom-0 inset-x-0 px-4 pb-6 sm:inset-0 sm:p-0 sm:flex sm:items-center sm:justify-center">
@@ -340,6 +340,7 @@
 
 @push('custom-scripts')
 <script src="https://vjs.zencdn.net/7.6.6/video.js"></script>
+<script src="{{ asset('js/websocket.js') }}" ></script>
 
 <script>
 
@@ -541,7 +542,7 @@
                   user: this.user.id,
                   message: this.message
               }).then(function(response){
-                  self.comments.unshift(response.data);
+                  // self.comments.unshift(response.data);
                   self.submit_comment = false;
                   self.spinner = false;
                   self.message = '';
@@ -567,9 +568,20 @@
                 }
             },
 
+            subscribeComment: function(){
+              var self = this;
+              Echo.join(`comment.${this.service.id}`)
+              .listen('NewComment', function(e) {
+                console.log(e);
+                self.comments.unshift(e.comment);
+            });
+
+            }
+
         },
     
         mounted: function(){
+          this.subscribeComment();
           var self = this;
           setInterval(function(){ 
               self.attendance_count();
