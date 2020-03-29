@@ -3,16 +3,16 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta property="og:title" content="Christ Embassy Online" /> 
+    <meta property="og:title" content="CEYC Online" /> 
     <meta property="og:type" content="article" /> 
-    <meta property="og:url" content="http://live.christembassynungua.org" />
-    <meta property="og:description" content="You're warmly invited to join Christ Embassy Online Church, The word of God is the Strength of our Life in this Season. Join us worship the Lord in the beauty of His Holiness" />
-    <meta name="twitter:image" content="http://live.christembassynungua.org/images/ce_online.jpg" />
-    <meta property="og:image" content="http://live.christembassynungua.org/images/ce_online.jpg"  />
+    <meta property="og:url" content="http://live.ceycairportcity.org" />
+    <meta property="og:description" content="You're warmly invited to our online church. Join us have an amazing time in the presense of God" />
+    <meta name="twitter:image" content="https://ceycairportcity.org/wp-content/uploads/2020/01/ceyc_logo-e1578178440895.png" />
+    <meta property="og:image" content="https://ceycairportcity.org/wp-content/uploads/2020/01/ceyc_logo-e1578178440895.png"  />
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'CEYC Aiport City Online') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
