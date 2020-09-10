@@ -5,6 +5,9 @@
 
 @import url('https://rsms.me/inter/inter.css');
 
+@import 'sweetalert2/src/sweetalert2.scss';
+
+
 // tailwindcss
 @import 'tailwindcss';
 
@@ -12,7 +15,7 @@
     min-width: 200px;
 }
 
-$imgKey: random(5);
+$imgKey: random(4);
 
 $list: pastor_earnest_2, christ_embassy_nungua, pastor_earnest, ce_nungua_church;
 $nth: nth($list, $imgKey);

@@ -75,13 +75,14 @@
                                       <div class="mt-1 sm:mt-0 sm:col-span-2">
                                         <div class="rounded-md shadow-sm">
                                           <select id="payment_category" v-model="payment_category" class="block form-select w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-                                            <option value="" disabled>Select Payment Category</option>
+                                            <option value="" disabled>Select Giving Category</option>
                                             <option v-for="category in payment_categories" v-bind:value="category.id" >@{{ category.title }}</option>
                                           </select>
                                         </div>
+                                        <p v-show="categoryValidation" class="text-left text-sm text-red-500">Please select a category</p>
                                       </div>
                                     </div>
-                                
+
                                     <label for="phone" class="my-2 text-left  my-1   block text-sm font-medium leading-5 text-gray-700">Phone Number</label>
                                     <div class="mt-1 relative rounded-md shadow-sm">
                                       <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -96,7 +97,7 @@
                                         </span>
                                       </div>
                                     </div>
-  
+
                                     <label for="phone" class="my-2 text-left  my-1  block text-sm font-medium leading-5 text-gray-700">Amount to give</label>
                                     <div class="mt-1 relative rounded-md shadow-sm">
                                         <div class="absolute inset-y-0 left-0 flex items-center">
@@ -108,8 +109,14 @@
                                         </div>
                                         <input id="amount" v-model="amount" class="form-input block w-full pl-5 text-right pl-16 sm:text-sm sm:leading-5" placeholder="0.00" />
                                     </div>
+                                    <p v-show="amountValidation" class="text-left text-sm text-red-500">Please enter an amount</p>
+
+                                    <label for="expectation" class="my-2 text-left  my-1  block text-sm font-medium leading-5 text-gray-700">Expectations/  Desired harvest/ Testimony</label>
+                                    <div class="mt-1 relative shadow-sm">
+                                      <textarea id="expectation" v-model="expectation"  rows="3" placeholder="" class="form-textarea block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"></textarea>
+                                    </div>
+
                                   </div>
-                                  
                                 </div>
                               </div>
                             </div>
@@ -122,6 +129,7 @@
                             </span>
                               <span class="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:col-start-2">
                                 <Rave
+                                    ref="rave"
                                     style-class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-indigo-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150 sm:text-sm sm:leading-5"
                                     :email="email"
                                     :amount="amount"
@@ -130,6 +138,7 @@
                                     :rave-key="raveKey"
                                     :callback="rave_callback"
                                     :close="rave_close"
+                                    :validate-fields="validateForm"
                                     :customer-firstname="first_name"
                                     :customer-lastname="last_name"
                                     {{-- payment-options="ussd, card, account" --}}
@@ -137,16 +146,16 @@
                                     :currency="currency"
                                     :country="rave_country"
                                 ><i class="lab la-cc-visa mr-1 text-2xl"></i><i class="lab la-cc-mastercard mr-1 text-2xl"></i><i class="las la-mobile-alt mr-1 text-2xl"></i> Give Now</Rave>
-                            
+
                             </div>
                           </div>
                       </div>
-                     
-                          
+
+
 
                     </div>
                 </div>
-                
+
                 <div class="sm:col-span-6 mt-4 px-6 md:px-1">
                     <label for="about" class="block text-sm font-medium leading-5 text-gray-700">
                       Comment
@@ -157,7 +166,7 @@
                         <button :disabled="submit_comment"  v-on:click="post_comment()" type="button" class=" inline-flex items-center shadow-md px-8 py-2 my-4 border border-transparent text-sm leading-5 font-medium rounded-full  text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150">
                           <span v-show="spinner" class="spinner mr-5"></span> Submit
                         </button>
-                      </span>                  
+                      </span>
                     </div>
                     <p class="mt-2 text-sm text-gray-500">Share your thoughts here</p>
                 </div>
@@ -202,26 +211,26 @@
                         <p v-if="live_comments == ''" class="p-4">No Comment. Be the first to comment</p>
 
                       </ul>
-                    </div> 
+                    </div>
               </div>
             </div>
         </div>
         <div class="md:col-span-1 col-span-4 md:row-span-2 m-1 lg:m-0 xl:m-0 flex md:flex-col flex-wrap">
             <p class="p-1 px-3 py-3 tex-gray-700 hidden lg:block text-2xl"> Service Archives </p>
             @forelse ($services as $s)
-            <a href="../videos/{{ $s->id }}">
-                <p class=" truncate h-auto md:max-w-xs  md:min-w-0 min-w-18 my-3 py-5 bg-indigo-500 rounded-lg shadow-2xl flex flex-col text-white items-center mx-2">
+            <a href="../videos/{{ $s->id }}" class="md:mx-0 mx-auto w-72 md:w-auto md:max-w-xs">
+                <div class="h-auto my-3 py-5 bg-indigo-500 rounded-lg shadow-2xl flex flex-col text-white items-center mx-2">
                     <span class="rounded-full bg-white">
                         <i class=" text-indigo-400 las la-play text-3xl p-3"></i>
                     </span>
-                    <p class="text-lg mt-2 font-bold px-4 max-w-xl text-center">{{ $s->title }}</p>
+                    <p class="text-lg mt-2 font-bold px-4 text-center">{{ $s->title }}</p>
                     <p class="text-sm text-center">{{ $s->created_at->diffForHumans() }}</p>
-                  </p>
+                  </div>
             </a>
             @empty
             <p class="p-4">No Videos. Thank you</p>
             @endforelse
-           
+
         </div>
     </div>
 </div>
@@ -250,6 +259,7 @@ data: function(){
             raveKey: 'FLWPUBK-1beb6ca9cea567480a782f5f99294d64-X',
             email: user.email,
             amount: 0,
+            expectation: '',
             phone: '',
             fname: '',
             lname: '',
@@ -265,7 +275,9 @@ data: function(){
             currency: 'GHS',
             country: 'GH',
             shareURl: false,
-            }
+            amountValidation: false,
+            categoryValidation: false
+          }
         },
 
         computed: {
@@ -302,7 +314,7 @@ data: function(){
           try {
             this.lname = user.name.split(' ')[1]
           } catch (error) {
-            return 
+            return
           }
           return this.lname;
         },
@@ -314,7 +326,7 @@ data: function(){
           for( let i=0; i < 10; i++ )
             text += possible.charAt(Math.floor(Math.random() * possible.length));
 
-          return text;
+            return text + '-' + this.payment_category + '-' + this.expectation;
         }
     },
 
@@ -323,7 +335,7 @@ data: function(){
           console.log(this.shareURl = false);
       },
 
-     
+
       first_timer: function(){
             var self = this;
             self.$swal.fire({
@@ -346,12 +358,7 @@ data: function(){
                 )
                 }).catch(function(e){
 
-                })
-               
-              }
             })
-           
-          },
 
           salvation: function(){
             var self = this;
@@ -375,12 +382,11 @@ data: function(){
                 )
                 }).catch(function(e){
 
-                })
-               
-              }
             })
-          },
 
+          }
+        })
+      },
 
       rave_callback: function(response){
         this.payment_modal = false;
@@ -395,19 +401,47 @@ data: function(){
               payment_category: this.payment_category
           }).then(function(response){
                 self.payment_modal = false;
-
+                self.amount = '',
+                self.payment_category = ''
           }).catch(function(e){
              self.payment_modal = false;
-              self.amount = ''
+             self.amount = '',
+              self.payment_category = ''
               console.log(e);
           })
-        }      
+        }
       },
       rave_close: function(){
         this.payment_modal = false;
         this.amount = ''
 
         console.log("Payment closed")
+      },
+
+      validateForm: function(){
+        if(this.checkCategory() === true){
+          return
+        }
+        if(this.checkAmount() === true){
+          return
+        }
+        this.$refs.rave.payWithRave();
+      },
+
+      checkCategory: function(){
+        if(this.payment_category == ''){
+          return  this.categoryValidation = true;
+        }else{
+          return this.categoryValidation = false
+        }
+      },
+
+      checkAmount: function(){
+        if(this.amount == ''){
+          return this.amountValidation = true;
+        }else{
+          return this.amountValidation = false
+        }
       },
 
       dateFormat: function(d){
@@ -417,26 +451,26 @@ data: function(){
           return d
         }
         return date;
-        
+
       },
 
       post_comment: function(){
-         var self = this;
-         this.submit_comment = true;
-         this.spinner = true;
+          var self = this;
+          this.submit_comment = true;
+          this.spinner = true;
           axios.post('../comments', {
               church: this.service.church_id,
               service: this.service.id,
               user: this.user.id,
               message: this.message
           }).then(function(response){
-              // self.comments.unshift(response.data);
+              self.comments.unshift(response.data);
               self.submit_comment = false;
               self.spinner = false;
               self.message = '';
               console.log(response.data);
           }).catch(function(e){
-              submit_comment = false   
+              submit_comment = false
               self.spinner = false;
               console.log(e);
           })
@@ -449,9 +483,9 @@ data: function(){
                     service: this.service.id,
                     count: 1
                 }).then(function(r){
-                    
+
                 }).catch(function(e){
-                    
+
                 })
             }
         },
@@ -460,10 +494,25 @@ data: function(){
               var self = this;
               Echo.join(`comment.${this.service.id}`)
               .listen('NewComment', function(e) {
-                console.log(e);
-                self.comments.unshift(e.comment);
+                if(e.comment.user.id != self.user.id){
+                    self.comments.unshift(e.comment);
+                }
             });
 
+        },
+
+        checkReload: function(e){
+          if(e.notification.reload == 'yes')
+            {
+              if(e.notification.url == null)
+              {
+                window.location.reload(true)
+              }
+              else
+              {
+                window.location.href = e.notification.url
+              }
+            }
         }
 
     },
@@ -471,12 +520,36 @@ data: function(){
     mounted: function(){
       this.subscribeComment();
         var self = this;
-      setInterval(function(){ 
+      setInterval(function(){
          self.attendance_count();
         },500000
       );
 
         this.attendance_count();
+
+        Echo.join(`notification.${this.service.id}`)
+          .listen('SiteNotification', function(e) {
+            console.log(e);
+
+            self.$swal.fire({
+              icon: 'success',
+              title: e.notification.title,
+              text: e.notification.message,
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 10000,
+              timerProgressBar: true,
+              onOpen: (toast) => {
+                toast.addEventListener('mouseenter', self.$swal.stopTimer)
+                toast.addEventListener('mouseleave', self.$swal.resumeTimer)
+
+              }
+            });
+
+            self.checkReload(e);
+
+        });
     }
 
 

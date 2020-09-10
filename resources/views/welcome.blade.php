@@ -84,7 +84,7 @@
                 <a href="../home" class="inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-indigo-600 bg-white hover:text-indigo-500 focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-indigo-700 transition duration-150 ease-in-out">
                   <i class="las la-user-alt text-2xl mr-2"></i> Account
                 </a>
-            
+
                 @endauth
                 @guest
                 <span class="inline-flex rounded-md shadow mx-1">
@@ -98,7 +98,7 @@
                   </a>
                 </span>
                 @endguest
-              
+
               </div>
             </nav>
           </div>
@@ -160,7 +160,7 @@
               <div class="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
                 <div class="rounded-md shadow">
                   <a href="../register" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10">
-                    Get started
+                    Sign up
                   </a>
                 </div>
                 <div class="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">

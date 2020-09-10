@@ -25,7 +25,7 @@
       color: transparent !important;
       pointer-events: none;
     }
-       
+
       .spinner:before {
         content: '';
         box-sizing: border-box;
@@ -41,17 +41,17 @@
         border-top-color: #000;
         animation: spinner .6s linear infinite;
       }
-      
+
       </style>
 
 @endpush
 
 @push('page-content')
 {{-- <div id="myapp"> --}}
-<div class="max-w-7xl mx-auto py-6 px-6 lg:px-8">   
+<div class="max-w-7xl mx-auto py-6 px-6 lg:px-8">
     <div class="grid grid-rows-2 md:grid-cols-4 gap-2">
         <div class="col-span-4 row-span-2">
-            <div class=" w-full bg-black flex justify-center items-center">
+            <div class="h-auto w-full bg-black flex justify-center items-center">
             @if($video_iframe == false)
               <video class="video-js vjs-big-play-centered vjs-16-9" data-setup='{"controls": true, "autoplay": true, "preload": "auto"}'>
                 <source src="{{ $service->link ?? '' }}" type="video/mp4">
@@ -97,21 +97,21 @@
                                 <p class="text-sm leading-5 text-gray-500">
                                   Give with Your Visa, Master Card or Mobile Money.
                                 </p>
-                                <div>
                                   <div class="mt-6 sm:mt-5  sm:border-t sm:border-gray-200 sm:pt-5">
                                     <label for="payment_category" class="block text-left my-1 text-sm font-medium leading-5 text-gray-700 sm:mt-px sm:pt-2">
                                       Category
                                     </label>
                                     <div class="mt-1 sm:mt-0 sm:col-span-2">
                                       <div class="rounded-md shadow-sm">
-                                        <select id="payment_category" v-model="payment_category" class="block form-select w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-                                          <option value="" disabled>Select Payment Category</option>
+                                        <select v-on:change="checkCategory" id="payment_category" v-model="payment_category" class="block form-select w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                                          <option value="" disabled>Select Giving Category</option>
                                           <option v-for="category in payment_categories" v-bind:value="category.id" >@{{ category.title }}</option>
                                         </select>
                                       </div>
+                                      <p v-show="categoryValidation" class="text-left text-sm text-red-500">Please select a category</p>
                                     </div>
                                   </div>
-                              
+
                                   <label for="phone" class="my-2 text-left  my-1   block text-sm font-medium leading-5 text-gray-700">Phone Number</label>
                                   <div class="mt-1 relative rounded-md shadow-sm">
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -136,10 +136,14 @@
                                           <option value="USD">USD</option>
                                         </select>
                                       </div>
-                                      <input id="amount" v-model="amount" class="form-input block w-full pl-5 text-right pl-16 sm:text-sm sm:leading-5" placeholder="0.00" />
+                                      <input v-on:change="checkAmount" id="amount" v-model="amount" class="form-input block w-full pl-5 text-right pl-16 sm:text-sm sm:leading-5" placeholder="0.00" />
                                   </div>
+                                  <p v-show="amountValidation" class="text-left text-sm text-red-500">Please enter an amount</p>
+
+                                <label for="expectation" class="my-2 text-left  my-1  block text-sm font-medium leading-5 text-gray-700">Expectations/  Desired harvest/ Testimony</label>
+                                <div class="mt-1 relative shadow-sm">
+                                  <textarea id="expectation" v-model="expectation"  rows="3" placeholder="" class="form-textarea block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"></textarea>
                                 </div>
-                                
                               </div>
                             </div>
                           </div>
@@ -152,6 +156,7 @@
                           </span>
                             <span class="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:col-start-2">
                               <Rave
+                                  ref="rave"
                                   style-class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-indigo-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150 sm:text-sm sm:leading-5"
                                   :email="email"
                                   :amount="amount"
@@ -160,6 +165,7 @@
                                   :rave-key="raveKey"
                                   :callback="rave_callback"
                                   :close="rave_close"
+                                  :validate-fields="validateForm"
                                   :customer-firstname="first_name"
                                   :customer-lastname="last_name"
                                   {{-- payment-options="ussd, card, account" --}}
@@ -167,16 +173,16 @@
                                   :currency="currency"
                                   :country="rave_country"
                               ><i class="lab la-cc-visa mr-1 text-2xl"></i><i class="lab la-cc-mastercard mr-1 text-2xl"></i><i class="las la-mobile-alt mr-1 text-2xl"></i> Give Now</Rave>
-                          
+
                           </div>
                         </div>
                       </div>
-                     
-                          
+
+
 
                     </div>
                 </div>
-                
+
                 <div class="sm:col-span-6 mt-4">
                     <label for="about" class="block text-sm font-medium leading-5 text-gray-700">
                       Comment
@@ -187,7 +193,7 @@
                         <button :disabled="submit_comment"  v-on:click="post_comment()" type="button" class=" inline-flex items-center shadow-md px-8 py-2 my-4 border border-transparent text-sm leading-5 font-medium rounded-full  text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150">
                           <span v-show="spinner" class="spinner mr-5"></span> Submit
                         </button>
-                      </span>                  
+                      </span>
                     </div>
                     <p class="mt-2 text-sm text-gray-500">Share your thoughts here</p>
                 </div>
@@ -232,7 +238,7 @@
                         <p v-if="live_comments == ''" class="p-4">No Comment. Be the first to comment</p>
 
                       </ul>
-                    </div> 
+                    </div>
               </div>
             </div>
         </div>
@@ -281,7 +287,7 @@
                 @endforelse
             </ul>
         </div>
-            
+
         </div>
         <div class="mt-3 w-full lg:w-6/12">
             <p class="p-2">Services</p>
@@ -332,7 +338,7 @@
                 </ul>
             </div>
         </div>
-    </div>   
+    </div>
 </div>
 {{-- </div> --}}
 
@@ -351,16 +357,17 @@
     var payment_categories = <?= json_encode($payment_categories); ?>
 
     var user = <?= json_encode($user); ?>
-    
+
     var comments = <?= json_encode($service->comments); ?>
 
     const app = new Vue({
         el: '#myapp',
-    data: function(){
+        data: function(){
         return{
                 payment_modals: false,
                 raveKey: 'FLWPUBK-1beb6ca9cea567480a782f5f99294d64-X',
                 email: user.email,
+                expectation: '',
                 amount: '',
                 phone: '',
                 fname: '',
@@ -377,6 +384,8 @@
                 currency: 'GHS',
                 country: 'GH',
                 shareURl: false,
+                amountValidation: false,
+                categoryValidation: false
 
             }
         },
@@ -414,7 +423,7 @@
               try {
                 this.lname = user.name.split(' ')[1]
               } catch (error) {
-                return 
+                return
               }
               return this.lname;
             },
@@ -426,15 +435,42 @@
               for( let i=0; i < 10; i++ )
                 text += possible.charAt(Math.floor(Math.random() * possible.length));
 
-              return text;
+              return text + '-' + this.payment_category + '-' + this.expectation;
+
             }
         },
-    
+
         methods: {
           closeShareURL: function () {
                 console.log(this.shareURl = false);
-                
+
             },
+
+          validateForm: function(){
+            if(this.checkCategory() === true){
+              return
+            }
+            if(this.checkAmount() === true){
+              return
+            }
+            this.$refs.rave.payWithRave();
+          },
+
+          checkCategory: function(){
+            if(this.payment_category == ''){
+              return  this.categoryValidation = true;
+            }else{
+              return this.categoryValidation = false
+            }
+          },
+
+          checkAmount: function(){
+            if(this.amount == ''){
+              return this.amountValidation = true;
+            }else{
+              return this.amountValidation = false
+            }
+          },
 
           first_timer: function(){
             var self = this;
@@ -459,10 +495,10 @@
                 }).catch(function(e){
 
                 })
-               
+
               }
             })
-           
+
           },
 
           salvation: function(){
@@ -488,7 +524,7 @@
                 }).catch(function(e){
 
                 })
-               
+
               }
             })
           },
@@ -505,23 +541,23 @@
                   currency: this.currency,
                   payment_category: this.payment_category
               }).then(function(response){
-                self.amount = '';
-                self.payment_modal = false
-
-
+                self.payment_modal = false;
+                self.amount = '',
+                self.payment_category = ''
               }).catch(function(e){
-
+                //  self.payment_modal = false;
+                //  self.amount = '',
+                //   self.payment_category = ''
                   console.log(e);
-              })
+              });
             }
-          
           },
           rave_close: function(){
             this.payment_modal = false;
             this.amount = ''
             console.log("Payment closed")
           },
-  
+
           dateFormat: function(d){
             var date = Moment.tz(d, timezone).fromNow();
             // console.log(date);
@@ -529,9 +565,9 @@
               return d
             }
             return date;
-            
+
           },
-    
+
           post_comment: function(){
              var self = this;
              this.submit_comment = true;
@@ -542,13 +578,13 @@
                   user: this.user.id,
                   message: this.message
               }).then(function(response){
-                  // self.comments.unshift(response.data);
+                  self.comments.unshift(response.data);
                   self.submit_comment = false;
                   self.spinner = false;
                   self.message = '';
                   console.log(response.data);
               }).catch(function(e){
-                  submit_comment = false   
+                  submit_comment = false
                   self.spinner = false;
                   console.log(e);
               })
@@ -561,9 +597,9 @@
                         service: this.service.id,
                         count: 1
                     }).then(function(r){
-                        
+
                     }).catch(function(e){
-                        
+
                     })
                 }
             },
@@ -573,27 +609,67 @@
               Echo.join(`comment.${this.service.id}`)
               .listen('NewComment', function(e) {
                 console.log(e);
-                self.comments.unshift(e.comment);
+                if(e.comment.user.id != self.user.id){
+                    self.comments.unshift(e.comment);
+                }
             });
 
+            },
+
+            checkReload: function(e){
+              if(e.notification.reload == 'yes')
+                {
+                  if(e.notification.url == null)
+                  {
+                    window.location.reload(true)
+                  }
+                  else
+                  {
+                    window.location.href = e.notification.url
+                  }
+                }
             }
 
         },
-    
+
         mounted: function(){
           this.subscribeComment();
           var self = this;
-          setInterval(function(){ 
+          setInterval(function(){
               self.attendance_count();
             },500000
           );
 
             this.attendance_count();
+
+            Echo.join(`notification.${this.service.id}`)
+              .listen('SiteNotification', function(e) {
+                console.log(e);
+
+                self.$swal.fire({
+                  icon: 'success',
+                  title: e.notification.title,
+                  text: e.notification.message,
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 10000,
+                  timerProgressBar: true,
+                  onOpen: (toast) => {
+                    toast.addEventListener('mouseenter', self.$swal.stopTimer)
+                    toast.addEventListener('mouseleave', self.$swal.resumeTimer)
+
+                  }
+                });
+
+               self.checkReload(e);
+
+            });
         }
-    
-    
+
+
     })
-    
+
     </script>
 @endpush
 

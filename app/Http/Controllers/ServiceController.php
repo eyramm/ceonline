@@ -90,7 +90,6 @@ class ServiceController extends Controller
 
             //Optional parameters to be appended to embed
             $params = [
-                'autoplay' => 1,
                 'rel' => 0
              ];
 
@@ -138,7 +137,9 @@ class ServiceController extends Controller
         $comment->message = $request->message;
         $comment->save();
 
-        broadcast(new NewComment($comment));
+        broadcast(new NewComment($comment))->toOthers();
+
+        $comment = Comment::where('id', $comment->id)->with('user')->first();
 
         return response()->json($comment);
     }

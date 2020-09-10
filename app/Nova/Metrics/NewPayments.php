@@ -17,7 +17,7 @@ class NewPayments extends Value
     public function calculate(NovaRequest $request)
     {
         return $this->sum($request, Payment::class, 'amount')
-                    ->prefix('¢');
+    ->prefix('¢');
     }
 
     /**
@@ -28,6 +28,8 @@ class NewPayments extends Value
     public function ranges()
     {
         return [
+            7 => '7 Days',
+            14 => '14 Days',
             30 => '30 Days',
             60 => '60 Days',
             365 => '365 Days',

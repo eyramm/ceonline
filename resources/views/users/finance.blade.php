@@ -37,13 +37,14 @@
                     <div class="mt-1 sm:mt-0 sm:col-span-2">
                       <div class="rounded-md shadow-sm">
                         <select id="payment_category" v-model="payment_category" class="block form-select w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-                          <option value="" disabled>Select Payment Category</option>
+                          <option value="" disabled>Select Giving Category</option>
                           <option v-for="category in payment_categories" v-bind:value="category.id" >@{{ category.title }}</option>
                         </select>
                       </div>
+                      <p v-show="categoryValidation" class="text-left text-sm text-red-500">Please select a category</p>
                     </div>
                   </div>
-              
+
                   <label for="phone" class="my-2 text-left  my-1   block text-sm font-medium leading-5 text-gray-700">Phone Number</label>
                   <div class="mt-1 relative rounded-md shadow-sm">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -70,8 +71,14 @@
                       </div>
                       <input id="amount" v-model="amount" class="form-input block w-full pl-5 text-right pl-16 sm:text-sm sm:leading-5" placeholder="0.00" />
                   </div>
+                  <p v-show="amountValidation" class="text-left text-sm text-red-500">Please enter an amount</p>
+
+                  <label for="expectation" class="my-2 text-left  my-1  block text-sm font-medium leading-5 text-gray-700">Expectations/  Desired harvest/ Testimony</label>
+                  <div class="mt-1 relative shadow-sm">
+                    <textarea id="expectation" v-model="expectation"  rows="3" placeholder="" class="form-textarea block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"></textarea>
+                  </div>
+
                 </div>
-                
               </div>
             </div>
           </div>
@@ -84,6 +91,7 @@
           </span>
             <span class="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:col-start-2">
               <Rave
+                  ref="rave"
                   style-class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-indigo-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150 sm:text-sm sm:leading-5"
                   :email="email"
                   :amount="amount"
@@ -92,6 +100,7 @@
                   :rave-key="raveKey"
                   :callback="rave_callback"
                   :close="rave_close"
+                  :validate-fields="validateForm"
                   :customer-firstname="first_name"
                   :customer-lastname="last_name"
                   {{-- payment-options="ussd, card, account" --}}
@@ -99,12 +108,12 @@
                   :currency="currency"
                   :country="rave_country"
               ><i class="lab la-cc-visa mr-1 text-2xl"></i><i class="lab la-cc-mastercard mr-1 text-2xl"></i><i class="las la-mobile-alt mr-1 text-2xl"></i> Give Now</Rave>
-          
+
           </div>
         </div>
       </div>
 </div>
-  
+
 @endpush
 
 @push('custom-styles')
@@ -114,7 +123,7 @@
 @push('page-content')
 <div class="max-w-8xl mx-auto py-6 sm:px-6 lg:px-8">
     <div class="flex flex-wrap justify-around my-8">
-        
+
         <div class="h-auto min-w-18 my-3 py-5 bg-white rounded-lg shadow-xl flex flex-col text-gray-500 items-center mx-2">
             <span class="rounded-full bg-indigo-400">
                 <i class=" text-white las la-check-circle text-3xl p-3"></i>
@@ -183,7 +192,7 @@
                        @else
                        {{ $payment->currency }} {{ $payment->amount ?? 'NA'}}
                        @endif
-                       
+
                     </td>
                     <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
                         {{ $payment->service->title ?? 'NA'}}
@@ -191,7 +200,7 @@
                     <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
                         {{ $payment->created_at->toDateString() }}
                     </td>
-                    
+
                     </tr>
                 @empty
                 <p class="my-2 p-4 text-sm text-gray-500">No Giving Recorded Yet.</p>
@@ -204,16 +213,16 @@
 </div>
   @endpush
 
-  @push('custom-scripts')  
+  @push('custom-scripts')
   <script>
-  
+
       var service = <?= json_encode($service); ?>
-  
+
       var payment_categories = <?= json_encode($payment_categories); ?>
-  
+
       var user = <?= json_encode($user); ?>
-      
-  
+
+
       const app = new Vue({
           el: '#myapp',
           data: function(){
@@ -222,6 +231,7 @@
                   raveKey: 'FLWPUBK-1beb6ca9cea567480a782f5f99294d64-X',
                   email: user.email,
                   amount: '',
+                  expectation: '',
                   phone: '',
                   fname: '',
                   lname: '',
@@ -236,26 +246,28 @@
                   currency: 'GHS',
                   country: 'GH',
                   shareURl: false,
-  
+                  amountValidation: false,
+                  categoryValidation: false
+
               }
           },
-  
+
           computed: {
-  
+
               rave_country: function(){
                 if(this.currency == "GHS"){
                     return this.country = 'GH'
                 }
-  
+
                 if(this.currency == "NGN"){
                     return this.country = 'NG'
                 }
-  
+
                 if(this.currency == "USD"){
                     return this.country = 'US'
                 }
               },
-  
+
               first_name(){
                 try {
                     this.fname = user.name.split(' ')[0]
@@ -265,27 +277,27 @@
                   }
                   return this.fname
               },
-  
+
               last_name(){
                 try {
                   this.lname = user.name.split(' ')[1]
                 } catch (error) {
-                  return 
+                  return
                 }
                 return this.lname;
               },
-  
+
               reference(){
                 let text = "";
                 let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  
+
                 for( let i=0; i < 10; i++ )
                   text += possible.charAt(Math.floor(Math.random() * possible.length));
-  
-                return text;
+
+                  return text + '-' + this.payment_category + '-' + this.expectation;
               }
           },
-      
+
           methods: {
 
             first_timer: function(){
@@ -311,10 +323,10 @@
                 }).catch(function(e){
 
                 })
-               
+
               }
             })
-           
+
           },
 
           salvation: function(){
@@ -340,47 +352,74 @@
                 }).catch(function(e){
 
                 })
-               
+
               }
             })
           },
 
-            closeShareURL: function () {
-                console.log(this.shareURl = false);
-                
-            },
-            rave_callback: function(response){
-              this.payment_modal = false;
-              var self = this;
-              if(response.data.data.status == 'successful'){
-                axios.post('../payments', {
-                    church: this.service.church_id,
-                    service: this.service.id,
-                    user: this.user.id,
-                    amount: this.amount,
-                    currency: this.currency,
-                    payment_category: this.payment_category
-                }).then(function(response){
-                  self.amount = '';
-                  self.payment_modal = false
-  
-  
-                }).catch(function(e){
-  
-                    console.log(e);
-                })
-              }
-            
-            },
-            rave_close: function(){
-              this.payment_modal = false;
-              this.amount = ''
-              console.log("Payment closed")
-            },
+          closeShareURL: function () {
+              console.log(this.shareURl = false);
+
+          },
+          rave_callback: function(response){
+            this.payment_modal = false;
+            var self = this;
+            if(response.data.data.status == 'successful'){
+              axios.post('../payments', {
+                  church: this.service.church_id,
+                  service: this.service.id,
+                  user: this.user.id,
+                  amount: this.amount,
+                  currency: this.currency,
+                  payment_category: this.payment_category
+              }).then(function(response){
+                self.amount = '';
+                self.payment_modal = false
+
+
+              }).catch(function(e){
+
+                  console.log(e);
+              })
+            }
+          },
+
+          rave_close: function(){
+            this.payment_modal = false;
+            this.amount = ''
+            console.log("Payment closed")
+          },
+
+          validateForm: function(){
+            if(this.checkCategory() === true){
+              return
+            }
+            if(this.checkAmount() === true){
+              return
+            }
+            this.$refs.rave.payWithRave();
+          },
+
+          checkCategory: function(){
+            if(this.payment_category == ''){
+              return  this.categoryValidation = true;
+            }else{
+              return this.categoryValidation = false
+            }
+          },
+
+          checkAmount: function(){
+            if(this.amount == ''){
+              return this.amountValidation = true;
+            }else{
+              return this.amountValidation = false
+            }
+          },
+
         }
 
-      
+
       })
-      
+
       </script>
   @endpush

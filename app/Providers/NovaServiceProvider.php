@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Laravel\Nova\Nova;
 use Laravel\Nova\Cards\Help;
+use Spatie\BackupTool\BackupTool;
 use Illuminate\Support\Facades\Gate;
 use Dniccum\CustomEmailSender\CustomEmailSender;
 use Laravel\Nova\NovaApplicationServiceProvider;
@@ -89,6 +90,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             \Vyuldashev\NovaPermission\NovaPermissionTool::make(),
             new CustomEmailSender(),
             new \Cloudstudio\ResourceGenerator\ResourceGenerator(),
+            new \Spatie\BackupTool\BackupTool(),
         ];
     }
 
